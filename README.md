@@ -1,28 +1,97 @@
-# VisionOps Pharma Inspection
+# VisionOps AI
 
-VisionOps is an MVP platform inspired by SPINE ULTRA-style AI visual inspection machines for tablets, capsules, softgels, and blister packs. It gives you a working software loop now: create a machine recipe, teach it with good samples, inspect single images or batches, view localized heatmaps, classify defect types, simulate active sorting, approve model versions, and keep a QA audit trail.
+AI-powered visual quality inspection for pharmaceutical products, featuring anomaly detection, defect localization, batch analytics, and a real-time 3D digital twin.
 
-## What Is Built
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.116-009688?logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 
-- FastAPI backend for product recipes, teaching, inspection, dataset catalog, image storage, and inspection history.
-- React HMI dashboard for operator-style workflows inspired by the uploaded PDF.
-- Product recipes for round tablets, oblong tablets, capsules, softgels, and blister packs.
-- Recipe metadata for shape constraints, dimensions, six-side inspection, colour/backlight/3D optical channels, and sorting mode.
-- Lightweight normal-sample anomaly model that works without real defect data.
-- Defect localization with labeled heatmap boxes, severity, confidence, and cavity-level area estimates.
-- Batch inspection endpoint and dashboard report with good/review/reject counts, reject rate, and defect type counts.
-- Live Three.js digital twin for the feeder, camera, inspection station, AI unit, conveyor, reject gate, sorting bins, and operator panel.
-- Backend-owned twin state streamed through WebSockets, with sequential batch playback, reject routing, actuator animation, bin fill/count updates, event timeline, and inspection evidence.
-- Model version registry with approve and activate actions for trained product recipes.
-- Runtime performance telemetry for duration percentiles, inference time, and model cache hit rate.
-- Durable audit events for recipe creation, model training, model approval, activation, single inspections, and batch runs.
-- Synthetic blister image generator for demos and tests.
-- Dataset catalog and sourcing script for public anomaly/blister datasets.
-- PatchCore-lite training/evaluation pipeline for normal-sample anomaly detection.
-- Deep-feature Anomalib training path for PatchCore and EfficientAD in a dedicated PyTorch Docker image.
-- YOLO dataset validation and training wrapper for supervised blister defect detection.
+## Overview
 
-## Quick Start
+VisionOps AI is an end-to-end proof of concept for automated pharmaceutical visual inspection. It demonstrates how computer vision can inspect tablets, capsules, softgels, and blister packs while maintaining traceable quality records.
+
+Operators can create inspection recipes, train anomaly-detection models using normal samples, inspect individual images or batches, review localized defect evidence, and monitor the process through a live 3D digital twin.
+
+> This project is an engineering prototype intended for demonstration and research. It is not validated for production pharmaceutical use.
+
+## Key Features
+
+- Normal-sample anomaly detection for identifying previously unseen defects
+- Heatmap-based defect localization with severity and confidence estimates
+- Single-image and batch inspection workflows
+- Good, review, and reject classifications
+- Product recipes for tablets, capsules, softgels, and blister packs
+- Model versioning with approval and activation workflows
+- Runtime latency and model-cache telemetry
+- Persistent inspection history and QA audit events
+- Real-time WebSocket synchronization
+- Interactive Three.js digital twin
+- Simulated conveyor, camera, reject gate, and sorting bins
+- Synthetic blister-image generation for demonstrations
+- PatchCore-lite and Anomalib training pipelines
+- YOLO dataset validation and supervised-training integration
+
+## System Architecture
+
+```mermaid
+flowchart LR
+    A[React Operator Dashboard] -->|REST API| B[FastAPI Backend]
+    B --> C[Inspection Engine]
+    B --> D[Recipe and Model Registry]
+    B --> E[Inspection and Audit Storage]
+    C --> F[PatchCore-lite / Anomalib / YOLO]
+    B -->|WebSocket events| G[Three.js Digital Twin]
+    H[Images and Datasets] --> C
+```
+
+The backend owns the inspection and digital-twin state. Each inspection updates the dashboard, quality counters, evidence view, equipment state, reject route, and audit timeline.
+
+## Technology Stack
+
+| Area | Technologies |
+|---|---|
+| Frontend | React, TypeScript, Vite, Three.js |
+| Backend | Python, FastAPI, Pydantic, Uvicorn |
+| Computer vision | Pillow, NumPy, PatchCore-lite |
+| Extended ML | Anomalib, EfficientAD, YOLO |
+| Communication | REST APIs, WebSockets |
+| Testing | Pytest, HTTPX |
+| Deployment | Docker, Docker Compose, Nginx |
+
+## Quick Start with Docker
+
+### Prerequisites
+
+- Git
+- Docker Desktop
+- Docker Compose
+
+### Installation
+
+```bash
+git clone https://github.com/binnuuuu/VisionOps-AI.git
+cd VisionOps-AI
+cp .env.docker.example .env
+docker compose up --build
+```
+
+Open:
+
+- Dashboard: [http://127.0.0.1:5173](http://127.0.0.1:5173)
+- API: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+- Interactive API documentation: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+To stop the application:
+
+```bash
+docker compose down
+```
+
+## Local Development
+
+### Backend
 
 ```bash
 python3 -m venv .venv
@@ -32,86 +101,146 @@ python scripts/make_synthetic_blisters.py
 PYTHONPATH=. uvicorn backend.app.main:app --reload --port 8000
 ```
 
-In another terminal:
+### Frontend
+
+Open another terminal:
 
 ```bash
 cd frontend
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
-If `pnpm` is not installed, `npm install` and `npm run dev` also work.
+Then visit [http://127.0.0.1:5173](http://127.0.0.1:5173).
 
-Open the web port configured by `VISIONOPS_WEB_PORT` in `.env` (the current workspace uses `http://127.0.0.1:15173`).
+## Suggested Demo Workflow
 
-## Docker Start
-
-```bash
-cp .env.docker.example .env
-docker compose up --build
-```
-
-Open `http://127.0.0.1:5173`.
-
-See `docs/docker.md` for Docker training, dataset, and test commands.
-
-## Demo Flow
-
-1. Use the ready Capsule Demo recipe or create a new tablet/capsule/softgel recipe.
-2. Teach it using 3 or more good product images.
-3. Inspect one image from `data/sample_images/visa_capsules/anomaly` or `data/demo_blisters/defect`.
-4. Run a batch with several images from the same sample folder.
-5. Review the heatmap, score, defect type, severity, confidence, batch QA report, model version, audit events, and latency telemetry.
+1. Select the prepared capsule recipe or create a product recipe.
+2. Teach the system using at least three normal product images.
+3. Inspect an image from:
+   - `data/sample_images/visa_capsules/anomaly`
+   - `data/demo_blisters/defect`
+4. Run a batch inspection using multiple sample images.
+5. Review the anomaly score, heatmap, defect classification, and severity.
+6. Open the digital twin to observe inspection and sorting events.
+7. Review batch statistics, model versions, latency telemetry, and audit history.
 
 ## Digital Twin
 
-The twin is an operating view of backend inspection state, not a separate 3D demo. Its typed model includes the plant, inspection line, assets, recipe, batch, active model, inspection counters, route state, and inspection events.
+The digital twin visualizes backend inspection events rather than running as an isolated animation.
 
-- Snapshot: `GET /api/twin/state`
-- Live stream: `WS /api/twin/ws`
-- Source model: `backend/app/twin.py`
-- Frontend view: `frontend/src/DigitalTwin.tsx`
+It models:
 
-Every real single or batch inspection updates the twin. Batch images enter an ordered runtime queue and move through feeding, camera capture, inspection, AI decision, and sorting phases. The operator panel shows the current source frame, switches to localized evidence when the decision is available, and tracks each image in the batch. Reject results raise the camera and inspection warning states, animate the product route and reject gate, increment the reject bin, and add a timeline event. The latest recipe and evidence are restored from persisted inspection records after a backend restart.
+- Product feeder
+- Conveyor
+- Camera and inspection station
+- AI decision unit
+- Reject actuator
+- Good and reject bins
+- Inspection evidence display
+- Live equipment and batch state
+- Event timeline
 
-## Dataset Sourcing
+Relevant endpoints:
 
-See `docs/dataset_sourcing.md` for the dataset rationale.
-See `docs/training_pipeline.md` and `docs/anomalib_training.md` for training commands.
-
-List curated datasets:
-
-```bash
-python scripts/source_datasets.py list
+```text
+GET /api/twin/state
+WS  /api/twin/ws
 ```
 
-Download VisA, which is directly available under CC BY 4.0:
+Single and batch inspections move products through feeding, image capture, analysis, decision, and sorting phases. Rejected products activate the reject route and update the corresponding counters and timeline events.
+
+## Machine-Learning Approach
+
+Many industrial inspection systems must detect defects that were not represented in a labeled training set. VisionOps therefore begins with normal-sample anomaly detection.
+
+The repository includes:
+
+- A lightweight PatchCore-inspired implementation
+- Anomalib integration for PatchCore and EfficientAD
+- Dataset preparation and evaluation utilities
+- Heatmap generation and threshold tuning
+- A YOLO training wrapper for labeled defect datasets
+- Synthetic data generation for repeatable demonstrations
+
+This design allows the application to work with a small collection of acceptable samples while leaving a path toward more advanced supervised and deep-feature models.
+
+## Testing
+
+Run the backend test suite locally:
 
 ```bash
-python scripts/source_datasets.py download visa --extract
+python -m pytest -q
 ```
 
-MVTec AD is excellent for anomaly baselines, but its license is CC BY-NC-SA 4.0 and the official page requires license acceptance. Download it from the official page, then register/extract it:
+Or run it using Docker:
 
 ```bash
-python scripts/source_datasets.py download mvtec_ad --archive /path/to/mvtec_anomaly_detection.tar.xz --extract
+docker compose run --rm backend python -m pytest -q
 ```
 
-Roboflow blister datasets require an API key for export:
+Build the frontend:
 
 ```bash
-export ROBOFLOW_API_KEY=...
-python scripts/source_datasets.py download roboflow_larger_blister_pack_defect --extract
+cd frontend
+npm install
+npm run build
 ```
 
-## Why This Architecture
+## Project Structure
 
-The PDF describes a machine that learns from a small set of good blisters. That is closer to anomaly detection than a purely supervised detector, especially when you do not yet have real defect data. This MVP starts with normal-only inspection and leaves a clear path to add PatchCore, PaDiM, EfficientAD, and YOLO training once public and real data are available.
+```text
+VisionOps-AI/
+├── backend/                 # FastAPI application and tests
+├── frontend/                # React dashboard and digital twin
+├── ml/                      # Anomaly-detection implementation
+├── scripts/                 # Training, evaluation, and data utilities
+├── configs/                 # Model and dataset configuration
+├── data/                    # Demonstration images and local artifacts
+├── datasets/                # Dataset catalog and downloaded datasets
+├── docs/                    # Technical documentation
+├── docker-compose.yml
+└── README.md
+```
 
-## Next Engineering Steps
+## Documentation
 
-- Tune Anomalib PatchCore/EfficientAD on GPU and later on real blister-line images.
-- Train YOLO on blister-specific Roboflow datasets.
-- Add camera/live stream ingestion.
-- Add reject-signal simulation, then real PLC/GPIO integration.
-- Add role-based access, electronic signatures, and CFR 21 Part 11 style controls.
+Additional guides are available in the `docs` directory:
+
+- [Docker setup](docs/docker.md)
+- [Training pipeline](docs/training_pipeline.md)
+- [Anomalib training](docs/anomalib_training.md)
+- [Dataset sourcing](docs/dataset_sourcing.md)
+- [VisA capsule results](docs/visa_capsules_results.md)
+
+## Engineering Highlights
+
+This project demonstrates experience with:
+
+- Full-stack application architecture
+- REST and WebSocket API design
+- Computer-vision model integration
+- Anomaly-detection workflows
+- Real-time 3D visualization
+- State synchronization
+- Model lifecycle management
+- Quality audit trails
+- Automated testing
+- Containerized deployment
+
+## Future Improvements
+
+- Evaluate deep-feature models on GPU
+- Train supervised detectors using real defect annotations
+- Add live industrial-camera ingestion
+- Integrate PLC or GPIO reject signals
+- Introduce role-based access control
+- Add electronic signatures and approval workflows
+- Add database-backed production storage
+- Perform validation using real manufacturing-line data
+
+## Author
+
+Developed by [binnuuuu](https://github.com/binnuuuu).
+
+If you found this project useful or interesting, consider giving it a star.
