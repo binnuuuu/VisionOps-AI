@@ -1,0 +1,64 @@
+{
+  "rows": 4,
+  "cols": 3,
+  "good": [
+    "good/good_001.png",
+    "good/good_002.png",
+    "good/good_003.png",
+    "good/good_004.png",
+    "good/good_005.png",
+    "good/good_006.png",
+    "good/good_007.png",
+    "good/good_008.png",
+    "good/good_009.png",
+    "good/good_010.png",
+    "good/good_011.png",
+    "good/good_012.png",
+    "good/good_013.png",
+    "good/good_014.png",
+    "good/good_015.png",
+    "good/good_016.png"
+  ],
+  "defect": [
+    {
+      "path": "defect/missing_001.png",
+      "defect": "missing"
+    },
+    {
+      "path": "defect/spot_002.png",
+      "defect": "spot"
+    },
+    {
+      "path": "defect/broken_003.png",
+      "defect": "broken"
+    },
+    {
+      "path": "defect/hair_004.png",
+      "defect": "hair"
+    },
+    {
+      "path": "defect/foil_tear_005.png",
+      "defect": "foil_tear"
+    },
+    {
+      "path": "defect/missing_006.png",
+      "defect": "missing"
+    },
+    {
+      "path": "defect/spot_007.png",
+      "defect": "spot"
+    },
+    {
+      "path": "defect/broken_008.png",
+      "defect": "broken"
+    },
+    {
+      "path": "defect/hair_009.png",
+      "defect": "hair"
+    },
+    {
+      "path": "defect/foil_tear_010.png",
+      "defect": "foil_tear"
+    }
+  ]
+}

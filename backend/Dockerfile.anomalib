@@ -1,0 +1,23 @@
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    VISIONOPS_DATA_DIR=/app/data
+
+WORKDIR /app
+
+COPY backend/requirements.txt backend/requirements.txt
+COPY backend/requirements-anomalib.txt backend/requirements-anomalib.txt
+RUN python -m pip install --upgrade pip \
+    && pip install -r backend/requirements-anomalib.txt \
+    && pip install --no-deps --force-reinstall opencv-python-headless==5.0.0.93
+
+COPY backend backend
+COPY ml ml
+COPY scripts scripts
+COPY datasets/catalog.json datasets/catalog.json
+COPY data/demo_blisters data/demo_blisters
+COPY pyproject.toml README.md ./
+
+CMD ["python", "scripts/train_anomalib.py", "--help"]

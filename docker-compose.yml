@@ -1,0 +1,34 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      VISIONOPS_DATA_DIR: /app/data
+      ROBOFLOW_API_KEY: ${ROBOFLOW_API_KEY:-}
+    volumes:
+      - ./backend:/app/backend
+      - ./ml:/app/ml
+      - ./scripts:/app/scripts
+      - ./data:/app/data
+      - ./datasets:/app/datasets
+    ports:
+      - "${VISIONOPS_API_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/api/health"]
+      interval: 20s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_URL: ""
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${VISIONOPS_WEB_PORT:-5173}:80"

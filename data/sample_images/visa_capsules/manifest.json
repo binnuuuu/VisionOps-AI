@@ -1,0 +1,96 @@
+{
+  "name": "VisA capsules sample image pack",
+  "source_dataset": "VisA",
+  "source_url": "https://registry.opendata.aws/visa/",
+  "license": "CC BY 4.0",
+  "category": "capsules",
+  "counts": {
+    "normal": 6,
+    "anomaly": 10
+  },
+  "records": [
+    {
+      "label": "normal",
+      "path": "normal/capsules_normal_062.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Normal/062.JPG"
+    },
+    {
+      "label": "normal",
+      "path": "normal/capsules_normal_240.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Normal/240.JPG"
+    },
+    {
+      "label": "normal",
+      "path": "normal/capsules_normal_179.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Normal/179.JPG"
+    },
+    {
+      "label": "normal",
+      "path": "normal/capsules_normal_288.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Normal/288.JPG"
+    },
+    {
+      "label": "normal",
+      "path": "normal/capsules_normal_324.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Normal/324.JPG"
+    },
+    {
+      "label": "normal",
+      "path": "normal/capsules_normal_152.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Normal/152.JPG"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_anomaly_000.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Anomaly/000.JPG"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_anomaly_001.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Anomaly/001.JPG"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_anomaly_002.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Anomaly/002.JPG"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_anomaly_003.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Anomaly/003.JPG"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_anomaly_004.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Anomaly/004.JPG"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_anomaly_005.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Anomaly/005.JPG",
+      "defect_type": "bubble_or_fill_void"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_anomaly_clear_063.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Anomaly/063.JPG"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_anomaly_clear_064.jpg",
+      "source": "datasets/raw/visa/capsules/Data/Images/Anomaly/064.JPG"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_demo_hair_fiber.jpg",
+      "source": "synthetic overlay from normal/capsules_normal_062.jpg",
+      "defect_type": "hair_or_fiber_contamination"
+    },
+    {
+      "label": "anomaly",
+      "path": "anomaly/capsules_demo_bubble_void.jpg",
+      "source": "synthetic overlay from normal/capsules_normal_062.jpg",
+      "defect_type": "bubble_or_fill_void"
+    }
+  ]
+}

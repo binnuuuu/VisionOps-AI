@@ -1,0 +1,6 @@
+# Optional heavy ML stack for real training runs.
+# Recommended: Python 3.10+ with a GPU-enabled PyTorch install when available.
+-r requirements.txt
+ultralytics==8.3.163
+opencv-python==4.12.0.88
+

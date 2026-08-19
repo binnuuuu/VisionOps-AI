@@ -1,0 +1,91 @@
+{
+  "datasets": [
+    {
+      "id": "visa",
+      "name": "Visual Anomaly (VisA)",
+      "priority": 1,
+      "task": "anomaly_detection",
+      "domain_fit": "Good for capsule-like multi-instance anomaly detection and pixel-level masks.",
+      "relevant_categories": ["capsules"],
+      "image_count": 10821,
+      "normal_count": 9621,
+      "anomaly_count": 1200,
+      "license": "CC BY 4.0",
+      "source_url": "https://registry.opendata.aws/visa/",
+      "download_url": "https://amazon-visual-anomaly.s3.us-west-2.amazonaws.com/VisA_20220922.tar",
+      "download_method": "direct",
+      "notes": "Best first large dataset because it has normal/anomaly images and pixel masks."
+    },
+    {
+      "id": "mvtec_ad",
+      "name": "MVTec AD",
+      "priority": 2,
+      "task": "anomaly_detection",
+      "domain_fit": "Strong industrial anomaly benchmark. Use capsule, pill, and bottle categories for pharma-inspired baselines.",
+      "relevant_categories": ["capsule", "pill", "bottle"],
+      "image_count": 5354,
+      "license": "CC BY-NC-SA 4.0",
+      "source_url": "https://www.mvtec.com/research-teaching/datasets/mvtec-ad",
+      "download_method": "manual_license_acceptance",
+      "notes": "Non-commercial license. Download from MVTec after accepting terms, then pass the archive path to scripts/source_datasets.py."
+    },
+    {
+      "id": "roboflow_larger_blister_pack_defect",
+      "name": "Larger Blister Pack Defect",
+      "priority": 3,
+      "task": "object_detection",
+      "domain_fit": "Most directly blister-pack-specific among open search results.",
+      "relevant_categories": ["blister-pack", "good_pack", "defect", "no_pack"],
+      "image_count": 1214,
+      "license": "Check Roboflow project page/export terms before commercial use",
+      "source_url": "https://universe.roboflow.com/my-workspace-d5mot/larger-blister-pack-defect",
+      "download_method": "roboflow_api_key",
+      "roboflow": {
+        "workspace": "my-workspace-d5mot",
+        "project": "larger-blister-pack-defect",
+        "version": 1,
+        "format": "yolov8"
+      },
+      "notes": "Use for YOLO-style supervised detection after setting ROBOFLOW_API_KEY."
+    },
+    {
+      "id": "roboflow_blister_strips_defect_detection",
+      "name": "Blister Strips' defect detection",
+      "priority": 4,
+      "task": "object_detection",
+      "domain_fit": "Blister strip defect detector with more blister-specific samples.",
+      "relevant_categories": ["defect"],
+      "image_count": 1505,
+      "license": "Check Roboflow project page/export terms before commercial use",
+      "source_url": "https://universe.roboflow.com/blister-strips/blister-strips-defect-detection",
+      "download_method": "roboflow_api_key",
+      "roboflow": {
+        "workspace": "blister-strips",
+        "project": "blister-strips-defect-detection",
+        "version": 2,
+        "format": "yolov8"
+      },
+      "notes": "Useful supervised dataset for visible blister/strip defects."
+    },
+    {
+      "id": "roboflow_blister_pack_defects",
+      "name": "Blister Pack Defects",
+      "priority": 5,
+      "task": "object_detection",
+      "domain_fit": "Small blister defect dataset for quick YOLO smoke tests.",
+      "relevant_categories": ["defect", "defects", "NoDefect"],
+      "image_count": 124,
+      "license": "CC BY 4.0 on Roboflow page",
+      "source_url": "https://universe.roboflow.com/my-workspace-d5mot/blister-pack-defects",
+      "download_method": "roboflow_api_key",
+      "roboflow": {
+        "workspace": "my-workspace-d5mot",
+        "project": "blister-pack-defects",
+        "version": 1,
+        "format": "yolov8"
+      },
+      "notes": "Small, but directly aligned with blister visual detection."
+    }
+  ]
+}
+

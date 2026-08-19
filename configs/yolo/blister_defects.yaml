@@ -1,0 +1,12 @@
+# Template YOLO dataset file.
+# Replace `path` after downloading/exporting a blister dataset.
+path: ../../datasets/raw/roboflow_larger_blister_pack_defect
+train: train/images
+val: valid/images
+test: test/images
+names:
+  0: blister-pack
+  1: defect
+  2: good_pack
+  3: no_pack
+

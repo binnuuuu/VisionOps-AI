@@ -1,0 +1,7 @@
+# Optional deep-feature anomaly detection stack.
+# This is intentionally separate from the lightweight app runtime.
+-r requirements.txt
+anomalib[cpu]==2.5.0
+
+# Anomalib depends on cv2; use the headless wheel for Docker/local CPU training.
+opencv-python-headless==5.0.0.93
