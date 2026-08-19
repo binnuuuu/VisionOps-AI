@@ -1,1 +1,0 @@
-# VisionOps-AI
